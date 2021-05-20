@@ -1,6 +1,6 @@
 # Flutter Test | Pie Solutions
 
-A simple mobile application using Flutter that fetches random data using a REST API and stores it in its local storage for any local manipulations.
+A simple mobile application using Flutter that fetches random data using a REST API and stores it in its local storage for any local manipulations. This is part of my recruitment test for Pie Solutions.
 
 # Screenshots
 
