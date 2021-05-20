@@ -1,7 +1,24 @@
-# pie_solutions_test
+# Flutter Test | Pie Solutions
 
-A new Flutter project.
+A simple mobile application using Flutter that fetches random data using a REST API and stores it in its local storage for any local manipulations.
 
+# Screenshots
+
+## Splash Screen
+![](screenshots/splashscreen.jpeg)
+
+## LoadingBar
+![](screenshots/loading.jpeg)
+## Home Screen with Data
+![](screenshots/messages.jpeg)
+
+## Home Screen without Data
+![](screenshots/nodata.jpeg)
+
+## Details Pages
+![](screenshots/details1.jpeg)
+
+![](screenshots/details2.jpeg)
 ## Getting Started
 
 This project is a starting point for a Flutter application.
