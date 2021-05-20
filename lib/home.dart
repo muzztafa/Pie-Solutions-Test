@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pie_solutions_test/details.dart';
 import 'package:pie_solutions_test/services.dart';
 import 'loadingBar.dart';
+import 'message.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isLoading = false;
+  List<Message> messageList = [];
 
   @override
   void initState() {
@@ -22,11 +25,18 @@ class _HomeState extends State<Home> {
   }
 
   Future getMessages() async {
-    Data data = new Data();
-    await data.getData();
-    setState(() {
-      this.isLoading = false;
-    });
+    try {
+      Data data = new Data();
+      await data.getData();
+      setState(() {
+        this.isLoading = false;
+        this.messageList = Data.messagesList;
+      });
+    } catch (e) {
+      setState(() {
+        this.isLoading = false;
+      });
+    }
   }
 
   @override
@@ -45,7 +55,71 @@ class _HomeState extends State<Home> {
                 fontSize: 30,
                 color: Colors.orange[900])),
       ),
-      body: isLoading ? LoadingBar(opac: 1) : Text("data loaded"),
+      body: isLoading
+          ? LoadingBar(opac: 1)
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                ),
+                Expanded(
+                  child: messageList.length > 0
+                      ? ListView.builder(
+                          itemCount: messageList.length,
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          itemBuilder: (context, index) {
+                            final item = messageList[index];
+                            return Card(
+                              child: ListTile(
+                                trailing: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.green,
+                                ),
+                                onTap: () async {
+                                  await Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              Details(
+                                                index: index,
+                                              )));
+                                  setState(() {
+                                    this.messageList = Data.messagesList;
+                                  });
+                                },
+                                title: Text(item.name.toString(),
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.normal,
+                                      textStyle: TextStyle(color: Colors.black),
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    )),
+                                subtitle: Text(item.emailAddress.toString(),
+                                    style: GoogleFonts.poppins(
+                                      // fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.normal,
+                                      textStyle: TextStyle(color: Colors.black),
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    )),
+                              ),
+                            );
+                          })
+                      : Center(
+                          child: Text(
+                          "No Data To Show!",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal,
+                            textStyle: TextStyle(color: Colors.black),
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        )),
+                ),
+              ],
+            ),
     );
   }
 }
